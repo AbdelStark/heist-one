@@ -1,0 +1,60 @@
+name: Bug report
+description: Report a reproducible defect in the game, integration, or tooling.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Do not include API keys or private trace contents. Use the Security tab for vulnerabilities.
+
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0 or a commit SHA
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Decision mode
+      options:
+        - Scripted
+        - Jev
+        - Both
+        - Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Give the smallest sequence that reproduces the problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, browser, Node.js version, and relevant non-secret configuration.
+    validations:
+      required: true

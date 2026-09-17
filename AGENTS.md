@@ -1,7 +1,7 @@
 # HEIST//ONE agent contract
 
-This repository is private. It is an instrumented game experiment, not a public
-TypeSafe announcement and not evidence of TypeSafe endorsement.
+This repository is an open-source, instrumented game experiment. It is not an
+official TypeSafe project, announcement, or evidence of TypeSafe endorsement.
 
 ## Read before changing anything
 
@@ -48,6 +48,6 @@ TypeSafe announcement and not evidence of TypeSafe endorsement.
 
 ## External actions
 
-Wait for explicit owner approval before making the repository public, sharing an
-evaluation, contacting TypeSafe about it, posting media, or deploying a public
-build. TypeSafe receives evaluation material privately before any public release.
+Wait for explicit owner approval before sharing new evaluation results,
+contacting TypeSafe about them, posting media, or deploying a public build. A
+public repository does not authorize publishing on the owner's social accounts.

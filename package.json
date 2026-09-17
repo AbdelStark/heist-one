@@ -2,6 +2,14 @@
   "name": "heist-one",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdelStark/heist-one.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AbdelStark/heist-one/issues"
+  },
   "type": "module",
   "packageManager": "pnpm@11.17.0",
   "engines": {
@@ -11,8 +19,9 @@
     "dev": "pnpm --parallel --filter @heist-one/server --filter @heist-one/web dev",
     "build": "pnpm -r build",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
-    "lint": "biome check .",
+    "lint": "biome check . && pnpm lint:md",
     "lint:fix": "biome check --write .",
+    "lint:md": "markdownlint-cli2",
     "typecheck": "tsc --noEmit -p tsconfig.scripts.json && pnpm -r typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -25,6 +34,7 @@
     "@biomejs/biome": "2.5.14",
     "@playwright/test": "1.63.0",
     "@types/node": "24.13.5",
+    "markdownlint-cli2": "0.20.0",
     "typescript": "7.0.2",
     "vitest": "5.0.1"
   }

@@ -1,0 +1,37 @@
+name: Feature proposal
+description: Propose a focused improvement that preserves the experiment's scope.
+title: "proposal: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What player, research, or contributor problem should this solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the smallest useful implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Decision-boundary impact
+      description: Explain whether this changes model inputs, typed questions, validation, deterministic authority, or provider usage.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Acceptance evidence
+      description: What deterministic or opt-in live evidence would show that this works?
+    validations:
+      required: true
