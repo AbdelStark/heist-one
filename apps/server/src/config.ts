@@ -1,6 +1,14 @@
 import { resolve } from "node:path";
+import { loadEnvFile } from "node:process";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
+
+const repositoryRoot = fileURLToPath(new URL("../../../", import.meta.url));
+try {
+  loadEnvFile(resolve(repositoryRoot, ".env"));
+} catch (error) {
+  if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+}
 
 const integerFromString = (fallback: number, min: number, max: number) =>
   z
@@ -21,7 +29,6 @@ const schema = z.object({
 });
 
 const parsed = schema.parse(process.env);
-const repositoryRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
 export const config = {
   apiKey: parsed.TYPESAFE_API_KEY,
