@@ -4,5 +4,11 @@
     "MD033": false,
     "MD041": false
   },
-  "globs": ["**/*.md", "!**/node_modules/**", "!apps/**/dist/**", "!playwright-report/**"]
+  "globs": [
+    "**/*.md",
+    "!**/node_modules/**",
+    "!apps/**/dist/**",
+    "!playwright-report/**",
+    "!test-results/**"
+  ]
 }

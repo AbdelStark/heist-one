@@ -15,7 +15,7 @@
   <a href="https://github.com/AbdelStark/heist-one/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/AbdelStark/heist-one/actions/workflows/ci.yml/badge.svg" /></a>
   <a href="https://github.com/AbdelStark/heist-one/releases/tag/v0.1.0"><img alt="Release v0.1.0" src="https://img.shields.io/badge/release-v0.1.0-b7ff16" /></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-737b82" /></a>
-  <a href="#quick-start"><img alt="Node.js 22.12 or newer" src="https://img.shields.io/badge/node-%E2%89%A522.12-339933?logo=node.js&logoColor=white" /></a>
+  <a href="#quick-start"><img alt="Node.js 22.13 or newer" src="https://img.shields.io/badge/node-%E2%89%A522.13-339933?logo=node.js&logoColor=white" /></a>
 </p>
 
 <p align="center">
@@ -109,7 +109,7 @@ measurement scope, and deliverable hashes are recorded in
 
 ## Quick start
 
-You need Node.js 22.12 or newer and pnpm 11.
+You need Node.js 22.13 or newer and pnpm 11.
 
 ```bash
 git clone https://github.com/AbdelStark/heist-one.git

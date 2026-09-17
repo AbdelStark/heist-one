@@ -16,7 +16,7 @@ If those documents disagree, resolve the contract before changing code.
 
 ## Set up locally
 
-You need Node.js 22.12 or newer and pnpm 11.
+You need Node.js 22.13 or newer and pnpm 11.
 
 ```bash
 corepack enable

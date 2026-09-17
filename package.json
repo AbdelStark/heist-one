@@ -13,7 +13,7 @@
   "type": "module",
   "packageManager": "pnpm@11.17.0",
   "engines": {
-    "node": ">=22.12"
+    "node": ">=22.13"
   },
   "scripts": {
     "dev": "pnpm --parallel --filter @heist-one/server --filter @heist-one/web dev",
