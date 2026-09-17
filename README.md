@@ -59,8 +59,35 @@ Scripted mode is the safe default. To exercise the live adapter, copy
 decision misses its deadline, the runtime stays playable through its scripted
 fallback policy.
 
-The Jev integration compiles and is covered by contract tests, but has not been
-called from this checkout because no TypeSafe API credential was available.
+The Jev integration is covered by contract tests and has also completed a live
+end-to-end extraction against the TypeSafe sandbox. The verified run used 12
+batched requests for 288 typed judgments, with zero fallbacks, zero stale
+decisions, and approximately 260 ms median provider latency. Exact provider cost
+remains unknown because the response does not expose billable cost.
+
+The simulation does not start—and therefore does not call Jev—until the player
+leaves the briefing. During play, decisions are event-driven with a bounded
+refresh interval rather than requested on every simulation tick.
+
+## Launch video
+
+The Remotion project lives in `apps/video`. It packages the recorded live-Jev
+run, generated soundtrack, launch composition, and 16:9 thumbnail.
+
+```bash
+pnpm video:studio
+pnpm video:render
+```
+
+Rendered deliverables:
+
+- [`apps/video/out/heist-one-launch.mp4`](apps/video/out/heist-one-launch.mp4)
+- [`apps/video/out/heist-one-thumbnail.png`](apps/video/out/heist-one-thumbnail.png)
+
+With a local live credential configured and `pnpm dev` running,
+`pnpm capture:live` repeats the full heist and captures a new source recording.
+The capture script asserts that the run reaches `CLEAN EXTRACTION`; it never
+writes the credential into the media or trace payloads.
 
 ## Verify it
 

@@ -343,6 +343,7 @@ export interface MuseumMap {
 }
 
 export type ClientMessage =
+  | { type: "start"; sequence: number }
   | { type: "input"; sequence: number; input: InputState }
   | { type: "action"; sequence: number; action: PlayerAction }
   | { type: "restart"; sequence: number }

@@ -31,6 +31,10 @@ const percentile = (values: number[], fraction: number): number | null => {
   return sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * fraction))] ?? null;
 };
 
+const FIRST_DECISION_TICK = 18;
+const DECISION_DEBOUNCE_TICKS = 9;
+const DECISION_REFRESH_TICKS = 90;
+
 export class SessionRuntime {
   #simulation: GameSimulation;
   readonly #mode: "scripted" | "jev";
@@ -40,6 +44,7 @@ export class SessionRuntime {
   #input: InputState = EMPTY_INPUT;
   #actions: PlayerAction[] = [];
   #timer: NodeJS.Timeout | null = null;
+  #started = false;
   #decisionController: AbortController | null = null;
   #epoch = 0;
   #closed = false;
@@ -51,6 +56,8 @@ export class SessionRuntime {
   #inputTokens = 0;
   #latencies: number[] = [];
   #tracedEventIds = new Set<string>();
+  #lastDecisionRequestTick = 0;
+  #lastDecisionEventId: string | null = null;
 
   constructor(options: {
     sessionId: string;
@@ -79,12 +86,16 @@ export class SessionRuntime {
   start(): void {
     this.#send({ type: "ready", mode: this.#mode, tickRate: Math.round(1000 / TICK_MS) });
     this.#sendSnapshot();
-    this.#timer = setInterval(() => this.#tick(), TICK_MS);
   }
 
   handle(message: ClientMessage): void {
     if (message.sequence <= this.#lastSequence) return;
     this.#lastSequence = message.sequence;
+    if (message.type === "start") {
+      this.#begin();
+      return;
+    }
+    if (!this.#started) return;
     if (message.type === "input") this.#input = message.input;
     if (message.type === "action") this.#actions.push(message.action);
     if (message.type === "restart") this.#restart();
@@ -95,6 +106,15 @@ export class SessionRuntime {
         message,
       );
     }
+  }
+
+  #begin(): void {
+    if (this.#started || this.#closed) return;
+    this.#started = true;
+    void this.#trace.write(this.#simulation.state.tick, "session.started", {
+      mode: this.#mode,
+    });
+    this.#timer = setInterval(() => this.#tick(), TICK_MS);
   }
 
   async close(): Promise<void> {
@@ -122,13 +142,32 @@ export class SessionRuntime {
     if (this.#simulation.state.tick % 3 === 0 || this.#simulation.state.status !== previousStatus) {
       this.#sendSnapshot();
     }
-    if (this.#simulation.state.status === "playing" && this.#simulation.state.tick % 18 === 0) {
+    if (this.#simulation.state.status === "playing" && this.#decisionIsDue()) {
       void this.#requestDecision();
     }
   }
 
+  #decisionIsDue(): boolean {
+    if (this.#decisionController) return false;
+    const tick = this.#simulation.state.tick;
+    if (this.#requestCount === 0) return tick >= FIRST_DECISION_TICK;
+    const latestRelevantEvent = this.#simulation.state.materialEvents.findLast(
+      (event) => event.kind !== "guard_decision",
+    );
+    const eventChanged =
+      latestRelevantEvent !== undefined && latestRelevantEvent.id !== this.#lastDecisionEventId;
+    const elapsed = tick - this.#lastDecisionRequestTick;
+    return (
+      (eventChanged && elapsed >= DECISION_DEBOUNCE_TICKS) || elapsed >= DECISION_REFRESH_TICKS
+    );
+  }
+
   async #requestDecision(): Promise<void> {
     if (this.#decisionController) return;
+    this.#lastDecisionRequestTick = this.#simulation.state.tick;
+    this.#lastDecisionEventId =
+      this.#simulation.state.materialEvents.findLast((event) => event.kind !== "guard_decision")
+        ?.id ?? null;
     if (this.#mode === "jev" && this.#requestCount >= config.liveCallLimit) {
       this.#fallbackCount += this.#simulation.state.guards.length;
       return;
@@ -212,6 +251,8 @@ export class SessionRuntime {
     this.#inputTokens = 0;
     this.#latencies = [];
     this.#tracedEventIds = new Set();
+    this.#lastDecisionRequestTick = 0;
+    this.#lastDecisionEventId = null;
     this.#sendSnapshot();
   }
 }

@@ -33,12 +33,17 @@ const restartSchema = z.object({
   type: z.literal("restart"),
   sequence: z.number().int().nonnegative(),
 });
+const startSchema = z.object({
+  type: z.literal("start"),
+  sequence: z.number().int().nonnegative(),
+});
 const selectSchema = z.object({
   type: z.literal("select_guard"),
   sequence: z.number().int().nonnegative(),
   guardId: z.string().nullable(),
 });
 const clientMessageSchema = z.discriminatedUnion("type", [
+  startSchema,
   inputSchema,
   actionSchema,
   restartSchema,

@@ -11,3 +11,4 @@ test-results/
 *.log
 traces/
 docs/evidence/generated/
+apps/video/public/*.webm

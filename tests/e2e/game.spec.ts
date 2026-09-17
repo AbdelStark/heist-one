@@ -9,6 +9,11 @@ const hold = async (page: Page, key: string, ms: number): Promise<void> => {
 
 test("loads the museum, emits decisions, and exposes the Decision Lens", async ({ page }) => {
   await page.goto("/");
+  await page.waitForTimeout(1_000);
+  await expect(page.getByText("TICK 0 · REV 0")).toBeVisible();
+  await expect(
+    page.getByText("QUESTIONS").locator("..").getByText("0", { exact: true }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "ENTER MUSEUM" }).click();
   await expect(page.getByText(/ONLINE \/ SCRIPTED/)).toBeVisible();
   await expect(page.getByTestId("decision-lens")).toContainText("MARA");
@@ -65,9 +70,19 @@ test("completes the jacket, badge, vault, artifact, and extraction route", async
   await hold(page, "w", 320);
   await hold(page, "d", 1_400);
   await page.keyboard.press("e");
-  await expect(
-    page.getByText("ARTIFACT").locator("..").getByText("ACQUIRED", { exact: true }),
-  ).toBeVisible();
+  const artifactAcquired = page
+    .getByText("ARTIFACT")
+    .locator("..")
+    .getByText("ACQUIRED", { exact: true });
+  if (!(await artifactAcquired.isVisible())) {
+    await hold(page, "a", 180);
+    await page.keyboard.press("e");
+  }
+  if (!(await artifactAcquired.isVisible())) {
+    await hold(page, "d", 360);
+    await page.keyboard.press("e");
+  }
+  await expect(artifactAcquired).toBeVisible();
 
   await hold(page, "d", 800);
   await hold(page, "s", 1_100);

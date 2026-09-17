@@ -13,10 +13,13 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "typecheck": "pnpm -r typecheck",
+    "typecheck": "tsc --noEmit -p tsconfig.scripts.json && pnpm -r typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "capture:live": "tsx scripts/capture-live-gameplay.ts",
+    "video:studio": "pnpm --filter @heist-one/video studio",
+    "video:render": "pnpm --filter @heist-one/video render"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",

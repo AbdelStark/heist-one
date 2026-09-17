@@ -181,6 +181,7 @@ export function App(): React.JSX.Element {
   const socketRef = useRef<WebSocket | null>(null);
   const sequenceRef = useRef(0);
   const inputRef = useRef<InputState>({ ...EMPTY_INPUT });
+  const enteredRef = useRef(false);
 
   const send = useCallback((message: ClientMessageWithoutSequence) => {
     const socket = socketRef.current;
@@ -197,7 +198,12 @@ export function App(): React.JSX.Element {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const socket = new WebSocket(`${protocol}//${window.location.host}/ws?mode=${nextMode}`);
     socketRef.current = socket;
-    socket.addEventListener("open", () => setConnectionState("ONLINE"));
+    socket.addEventListener("open", () => {
+      setConnectionState("ONLINE");
+      if (enteredRef.current) {
+        socket.send(JSON.stringify({ type: "start", sequence: ++sequenceRef.current }));
+      }
+    });
     socket.addEventListener("close", () => setConnectionState("OFFLINE"));
     socket.addEventListener("error", () => setConnectionState("ERROR"));
     socket.addEventListener("message", (event) => {
@@ -490,7 +496,14 @@ export function App(): React.JSX.Element {
               <b>→</b>
               <span>04 / EXIT</span>
             </div>
-            <button type="button" onClick={() => setShowBriefing(false)}>
+            <button
+              type="button"
+              onClick={() => {
+                enteredRef.current = true;
+                send({ type: "start" });
+                setShowBriefing(false);
+              }}
+            >
               ENTER MUSEUM
             </button>
             <small>

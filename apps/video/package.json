@@ -1,0 +1,24 @@
+{
+  "name": "@heist-one/video",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts HeistOneLaunch out/heist-one-launch.mp4 --codec=h264 --crf=18",
+    "render:thumbnail": "remotion still src/index.ts HeistOneThumbnail out/heist-one-thumbnail.png",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/google-fonts": "4.0.525",
+    "@remotion/media": "4.0.525",
+    "@remotion/transitions": "4.0.525",
+    "remotion": "4.0.525"
+  },
+  "devDependencies": {
+    "@remotion/cli": "4.0.525",
+    "@types/react": "19.2.14",
+    "typescript": "7.0.2"
+  }
+}

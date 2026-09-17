@@ -9,7 +9,7 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "pnpm --filter @heist-one/server dev",
+      command: "HEIST_DECISION_MODE=scripted pnpm --filter @heist-one/server dev",
       port: 8787,
       reuseExistingServer: true,
     },
