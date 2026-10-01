@@ -11,10 +11,10 @@
     "build": "tsc --noEmit"
   },
   "dependencies": {
-    "@remotion/google-fonts": "4.0.525",
-    "@remotion/media": "4.0.525",
-    "@remotion/transitions": "4.0.525",
-    "remotion": "4.0.525"
+    "@remotion/google-fonts": "4.0.529",
+    "@remotion/media": "4.0.529",
+    "@remotion/transitions": "4.0.529",
+    "remotion": "4.0.529"
   },
   "devDependencies": {
     "@remotion/cli": "4.0.525",
