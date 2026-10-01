@@ -33,9 +33,9 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
     "@playwright/test": "1.63.0",
-    "@types/node": "24.13.5",
-    "markdownlint-cli2": "0.20.0",
+    "@types/node": "26.6.3",
+    "markdownlint-cli2": "0.23.3",
     "typescript": "7.0.2",
-    "vitest": "5.0.1"
+    "vitest": "5.0.2"
   }
 }
